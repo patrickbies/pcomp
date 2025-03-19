@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
-type HeaderContextType = {
+type NavbarContextType = {
   activeDropdown: string | null;
   position: DOMRect | null;
   setActiveDropdown: (id: string | null) => void;
@@ -10,11 +10,11 @@ type HeaderContextType = {
   unregisterContent: (id: string) => void;
 };
 
-const HeaderContext = createContext<HeaderContextType | null>(null);
+const NavbarContext = createContext<NavbarContextType | null>(null);
 
-export const useHeader = () => {
-  const context = useContext(HeaderContext);
-  if (!context) throw new Error('Header compound components must be wrapped in <Header.Container>');
+export const useNavbar = () => {
+  const context = useContext(NavbarContext);
+  if (!context) throw new Error('Navbar compound components must be wrapped in <Navbar.Container>');
   return context;
 };
 
@@ -36,7 +36,7 @@ const Container = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   return (
-    <HeaderContext.Provider value={{ activeDropdown, position, setActiveDropdown, setPosition, registerContent, unregisterContent }}>
+    <NavbarContext.Provider value={{ activeDropdown, position, setActiveDropdown, setPosition, registerContent, unregisterContent }}>
       <nav className="flex items-center space-x-4 p-4 bg-white shadow-sm">
         {children}
       </nav>
@@ -53,7 +53,7 @@ const Container = ({ children }: { children: React.ReactNode }) => {
         </div>,
         document.body
       )}
-    </HeaderContext.Provider>
+    </NavbarContext.Provider>
   );
 };
 
@@ -70,7 +70,7 @@ const Link = ({ children }: { children: React.ReactNode }) => {
 };
 
 const DropdownTrigger = ({ children, id }: { children: React.ReactNode; id: string }) => {
-  const { setActiveDropdown, setPosition } = useHeader();
+  const { setActiveDropdown, setPosition } = useNavbar();
   const ref = useRef<HTMLDivElement>(null);
 
   const handleMouseEnter = () => {
@@ -94,7 +94,7 @@ const DropdownTrigger = ({ children, id }: { children: React.ReactNode; id: stri
 };
 
 const DropdownContent = ({ id, children }: { id: string; children: React.ReactNode }) => {
-  const { registerContent, unregisterContent } = useHeader();
+  const { registerContent, unregisterContent } = useNavbar();
 
   useEffect(() => {
     registerContent(id, children);
