@@ -11,3 +11,13 @@
   --color-foreground: var(--foreground);
   --color-border: var(--border);
 }
+
+body {
+  background-color: var(--background);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #222 transparent;
+  scroll-behavior: smooth;
+}
