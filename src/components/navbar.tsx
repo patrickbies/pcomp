@@ -1,3 +1,4 @@
+import { ChevronDown } from "lucide-react";
 import React, {
   createContext,
   useContext,
@@ -47,7 +48,7 @@ const Container = ({ children }: { children: React.ReactNode }) => {
     Record<string, ContainerContent>
   >({});
   const closeTimeoutRef = useRef<number | null>(null);
-  const delay = 100; // delay in milliseconds to close after leave hover
+  const delay = 100; // delay in milliseconds to close dropdown window after mouse exit
 
   const registerContent = useCallback(
     (id: string, content: React.ReactNode, width: number, height: number) => {
@@ -96,21 +97,21 @@ const Container = ({ children }: { children: React.ReactNode }) => {
         cancelCloseTimer,
       }}
     >
-      <nav className="flex items-center space-x-4 p-3 bg-white border-b justify-end">
+      <nav className="flex items-center space-x-4 p-3 bg-background border-b border-border justify-center">
         {children}
       </nav>
 
       <div
-        className={`absolute bg-white border rounded-lg shadow-lg p-4 transform transition-all duration-300 ${
-          activeDropdown ? "scale-100 opacity-100" : "scale-0 opacity-0 pointer-events-none"
+        className={`absolute bg-background border border-border rounded-lg shadow-lg p-4 transform transition-all duration-300 ${
+          activeDropdown ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         style={{
           left: Math.min(
-            position ? position.left : 0,
+            position ? (position.left + position.width/2 - (activeDropdown ? dropdownContent[activeDropdown].width / 2 : 0)) : 0,
             window.innerWidth -
-              (activeDropdown ? dropdownContent[activeDropdown].width : 0)
+              (activeDropdown ? dropdownContent[activeDropdown].width : 0) - 5
           ),
-          top: position?.bottom,
+          top: (position?.bottom || 0) + 5,
           width: `${
             activeDropdown ? dropdownContent[activeDropdown].width : 0
           }px`,
@@ -133,7 +134,7 @@ const Item = ({ children }: { children: React.ReactNode }) => {
 
 const Link = ({ children }: { children: React.ReactNode }) => {
   return (
-    <a href="#" className="text-gray-600 hover:text-gray-900 px-3 py-2">
+    <a href="#" className="text-foreground/80 hover:bg-foreground/10 transition-all rounded-lg px-4 py-2">
       {children}
     </a>
   );
@@ -146,7 +147,7 @@ const DropdownTrigger = ({
   children: React.ReactNode;
   id: string;
 }) => {
-  const { setActiveDropdown, setPosition, startCloseTimer, cancelCloseTimer } =
+  const { activeDropdown, setActiveDropdown, setPosition, startCloseTimer, cancelCloseTimer } =
     useNavbar();
   const ref = useRef<HTMLDivElement>(null);
 
@@ -162,11 +163,12 @@ const DropdownTrigger = ({
   return (
     <div
       ref={ref}
-      className="cursor-pointer text-gray-600 hover:text-gray-900 px-3 py-2"
+      className="cursor-pointer text-foreground/80 hover:bg-foreground/10 transition-all rounded-lg px-4 py-2 flex flex-row items-center gap-[5px]"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={startCloseTimer}
     >
       {children}
+      <ChevronDown size={14} className={`text-white transition-all duration-300 ${activeDropdown == id && "scale-y-[-1]"}`} />
     </div>
   );
 };
