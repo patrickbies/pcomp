@@ -9,19 +9,36 @@ const Home = () => {
   const [sidebarWidth, setSidebarWidth] = useState(0);
 
   useLayoutEffect(() => {
-    if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight);
-    }
-    if (sidebarRef.current) {
-      setSidebarWidth(sidebarRef.current.offsetWidth);
-    }
-  }, [headerRef, sidebarRef]);
+    const headerEl = headerRef.current;
+    const sidebarEl = sidebarRef.current;
+    
+    if (!headerEl || !sidebarEl) return;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.target === headerEl) {
+          setHeaderHeight(entry.contentRect.height);
+        }
+        if (entry.target === sidebarEl) {
+          setSidebarWidth(entry.contentRect.width);
+        }
+      }
+    });
+
+    resizeObserver.observe(headerEl);
+    resizeObserver.observe(sidebarEl);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
 
   return (
     <main>
       <Header ref={headerRef} />
       <Sidebar offsetHeight={headerHeight} ref={sidebarRef} />
-        <section className="py-[20vh] px-[20vw]" style={{marginLeft: sidebarWidth/2 + 'px'}}>          
+      <div style={{marginLeft: sidebarWidth/2 + 'px'}}>
+        <section className="py-[20vh] ml-[20vw] w-[60vw]">          
           <h1 className="text-foreground text-5xl font-bold">First Section</h1>
           <div className="h-[1px] w-full bg-foreground/10 mt-[4vh]" />
           <h3 className="text-foreground/90 text-3xl font-semibold mt-[6vh]">
@@ -62,6 +79,7 @@ const Home = () => {
             fuga doloribus laborum nihil recusandae nam quas non reiciendis.
           </p>
         </section>
+        </div>
     </main>
   );
 };

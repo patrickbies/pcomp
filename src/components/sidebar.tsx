@@ -14,8 +14,8 @@ const Sidebar = ({
     <div
       ref={ref}
       style={{ marginTop: offsetHeight + "px" }}
-      className={`fixed inset-0 z-[100] bg-red-500 h-screen w-0 transition-all ${
-        open && "w-[20vw]"
+      className={`fixed inset-0 border-border h-screen w-0 transition-all ${
+        open && "w-[20vw] border-r"
       }`}
     >
       <button
