@@ -11,7 +11,7 @@ const Home = () => {
   useLayoutEffect(() => {
     const headerEl = headerRef.current;
     const sidebarEl = sidebarRef.current;
-    
+
     if (!headerEl || !sidebarEl) return;
 
     const resizeObserver = new ResizeObserver((entries) => {
@@ -36,9 +36,35 @@ const Home = () => {
   return (
     <main>
       <Header ref={headerRef} />
-      <Sidebar offsetHeight={headerHeight} ref={sidebarRef} />
-      <div style={{marginLeft: sidebarWidth/2 + 'px'}}>
-        <section className="py-[20vh] ml-[20vw] w-[60vw]">          
+      <Sidebar.Container offsetHeight={headerHeight} ref={sidebarRef}>
+        <Sidebar.Header text="Title Here" />
+        <Sidebar.ListItem text="Item 1" />
+        <Sidebar.ListItem text="Item 2" />
+        <Sidebar.DropdownItem text="Drop 1">
+          <Sidebar.ListItem text="Lorem" />
+          <Sidebar.DropdownItem text="Drop 2">
+            <Sidebar.ListItem text="Lorem" />
+          </Sidebar.DropdownItem>
+          <Sidebar.ListItem text="Ipsum" />
+        </Sidebar.DropdownItem>
+        <Sidebar.ListItem text="Item 4" />
+        <Sidebar.Header text="Another Section" />
+        <Sidebar.ListItem text="Item 1" />
+        <Sidebar.DropdownItem text="Large Drop">
+          <Sidebar.ListItem text="Lorem" />
+          <Sidebar.ListItem text="Lorem" />
+          <Sidebar.ListItem text="Lorem" />
+          <Sidebar.ListItem text="Lorem" />
+          <Sidebar.ListItem text="Lorem" />
+          <Sidebar.ListItem text="Lorem" />
+          <Sidebar.ListItem text="Lorem" />
+          <Sidebar.ListItem text="Lorem" />
+          <Sidebar.ListItem text="Lorem" />
+          <Sidebar.ListItem text="Lorem" />
+        </Sidebar.DropdownItem>
+      </Sidebar.Container>
+      <div style={{ marginLeft: sidebarWidth / 2 + "px" }}>
+        <section className="py-[20vh] ml-[20vw] w-[60vw]">
           <h1 className="text-foreground text-5xl font-bold">First Section</h1>
           <div className="h-[1px] w-full bg-foreground/10 mt-[4vh]" />
           <h3 className="text-foreground/90 text-3xl font-semibold mt-[6vh]">
@@ -79,7 +105,7 @@ const Home = () => {
             fuga doloribus laborum nihil recusandae nam quas non reiciendis.
           </p>
         </section>
-        </div>
+      </div>
     </main>
   );
 };

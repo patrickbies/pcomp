@@ -116,12 +116,12 @@ const Container = ({ children }: { children: React.ReactNode }) => {
                   (activeDropdown
                     ? dropdownContent[activeDropdown].width / 2
                     : 0)
-              : 0,
+              : window.innerWidth / 2,
             window.innerWidth -
               (activeDropdown ? dropdownContent[activeDropdown].width : 0) -
               5
           ),
-          top: (position?.bottom || 0) + 5,
+          top: (position?.bottom || window.innerHeight * 0.1) + 5,
           width: `${
             activeDropdown ? dropdownContent[activeDropdown].width : 0
           }px`,

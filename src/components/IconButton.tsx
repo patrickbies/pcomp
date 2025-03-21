@@ -10,7 +10,7 @@ const IconButton = ({
   desc?: string;
 }) => {
   return (
-    <span className="flex flex-row w-min p-2 rounded-lg gap-3 cursor-pointer hover:bg-foreground/5 items-center">
+    <span className="flex flex-row w-min p-2 rounded-lg gap-3 cursor-pointer hover:bg-foreground/5 items-center overflow-hidden">
       <div className="aspect-square p-2 rounded-lg bg-foreground/5 flex justify-center items-center">
         {icon}
       </div>
