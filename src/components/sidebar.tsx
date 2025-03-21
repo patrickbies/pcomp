@@ -1,6 +1,4 @@
 import {
-  ChevronDown,
-  ChevronLeft,
   ChevronRight,
   SidebarIcon,
 } from "lucide-react";
