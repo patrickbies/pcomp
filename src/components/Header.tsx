@@ -10,9 +10,9 @@ import {
   Brackets,
 } from "lucide-react";
 
-const Header = () => {
+const Header = ({ref} : {  ref?: any}) => {
   return (
-    <header className="fixed z-50 w-screen">
+    <header ref={ref} className="fixed z-50 w-screen">
       <Navbar.Container>
         <Navbar.Item>
           <Navbar.Link>About Us</Navbar.Link>
