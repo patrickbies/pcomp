@@ -1,4 +1,9 @@
-import { ChevronDown, ChevronLeft, SidebarIcon } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  SidebarIcon,
+} from "lucide-react";
 import { useState } from "react";
 
 const Container = ({
@@ -16,7 +21,7 @@ const Container = ({
     <div
       ref={ref}
       style={{ marginTop: offsetHeight + "px" }}
-      className={`fixed inset-0 border-border h-screen w-0 transition-all ${
+      className={`fixed inset-0 border-border bg-foreground/2 h-screen w-0 transition-all ${
         open && "w-[20vw] border-r"
       }`}
     >
@@ -26,10 +31,10 @@ const Container = ({
           open && "scale-x-[-1]"
         }`}
       >
-        <SidebarIcon color="white" size={20}/>
+        <SidebarIcon color="white" size={20} />
       </button>
       <section
-        className={`transition-opacity pb-20 ${
+        className={`transition-opacity pb-20 h-full w-full overflow-y-scroll ${
           !open && "opacity-0 pointer-events-none"
         }`}
       >
@@ -39,38 +44,43 @@ const Container = ({
   );
 };
 
-const Header = ({text} : {text : string}) => {
+const Header = ({ text }: { text: string }) => {
   return (
-    <div className="text-foreground font-semibold py-1 pt-5 px-4">
-      {text}
-    </div>
-  )
-}
-
-const ListItem = ({
-  text,
-  iconLeft,
-  onClick,
-}: {
-  text: string;
-  iconLeft?: React.ReactNode;
-  onClick?: () => void;
-}) => {
-  return (
-    <div
-      onClick={onClick}
-      className="text-foreground cursor-pointer hover:bg-foreground/10 rounded-lg py-1 px-4 mt-1 mx-2 text-nowrap"
-    >
+    <div className="text-foreground/60 font-bold text-xs pt-10 mx-4">
       {text}
     </div>
   );
 };
 
+const itemStyling =
+  "text-foreground cursor-pointer hover:bg-foreground/10 rounded-lg py-1 px-2 mt-1 mx-2 text-nowrap text-md";
+
+const ListItem = ({
+  text,
+  iconLeft,
+  onClick,
+  href,
+}: {
+  text: string;
+  iconLeft?: React.ReactNode;
+  onClick?: () => void;
+  href? : string;
+}) => {
+  return (
+    <a href={href} onClick={onClick} className={"flex gap-2 items-center " + itemStyling}>
+      {iconLeft}
+      {text}
+    </a>
+  );
+};
+
 const DropdownItem = ({
   text,
+  iconLeft,
   children,
 }: {
   text: string;
+  iconLeft?: React.ReactNode;
   children?: React.ReactNode;
 }) => {
   const [open, setOpen] = useState(false);
@@ -79,10 +89,14 @@ const DropdownItem = ({
     <div>
       <div
         onClick={() => setOpen(!open)}
-        className="text-foreground cursor-pointer hover:bg-foreground/10 rounded-lg py-1 px-4 mt-1 mx-2 text-nowrap flex justify-between items-center"
+        className={itemStyling + " flex justify-between items-center"}
       >
-        {text}
-        <ChevronDown size={20} className={`transition-all ${open && " scale-y-[-1]"}`} />
+        <div className="flex gap-2 items-center">{iconLeft}
+        {text}</div>
+        <ChevronRight
+          size={20}
+          className={`transition-all ${open && " rotate-90"}`}
+        />
       </div>
       <div
         className={`mx-6 border-l border-border transition-transform overflow-hidden ${
@@ -99,7 +113,7 @@ const Sidebar = {
   Container,
   ListItem,
   DropdownItem,
-  Header
+  Header,
 };
 
 export default Sidebar;
